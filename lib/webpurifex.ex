@@ -7,6 +7,10 @@ defmodule Webpurifex do
     |> post
   end
 
+  def get_blacklist() do
+    post Requests.ProfanityFilter.Blacklist.GetList.build_request
+  end
+
   def check_text(text) do
     text
     |> Requests.ProfanityFilter.CheckText.build_request

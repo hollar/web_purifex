@@ -17,6 +17,14 @@ defmodule WebpurifexTest do
         assert response["rsp"]["method"] == "webpurify.live.addtoblacklist"
       end
     end
+
+    test "list blacklisted words" do
+      use_cassette "get_blacklist" do
+        response =  Webpurifex.get_blacklist()
+
+        assert response["rsp"]["method"] == "webpurify.live.getblacklist"
+      end
+    end
   end
 
   describe "checking a text" do
