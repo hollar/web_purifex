@@ -1,18 +1,25 @@
 defmodule Webpurifex do
-  @moduledoc """
-  Documentation for Webpurifex.
-  """
+  alias Webpurifex.Requests
 
-  @doc """
-  Hello world.
+  def add_to_blacklist(word) do
+    word
+    |> Requests.AddToBlacklist.build_request
+    |> post
+  end
 
-  ## Examples
+  defp post(%{form_data: form_data}) do
+    form_data = form_data ++ [
+      {"api_key", get_api_key()},
+      {"format", "json"}
+    ]
+    body = {:form, form_data}
 
-      iex> Webpurifex.hello
-      :world
+    {:ok, response} = HTTPoison.post(get_base_url(), body)
+    Poison.Parser.parse!(response.body)
+  end
 
-  """
-  def hello do
-    :world
+  defp get_base_url(), do: "http://api1.webpurify.com/services/rest/"
+  defp get_api_key() do[]
+    Application.get_env(:webpurifex, :api_key)
   end
 end
