@@ -21,8 +21,9 @@ defmodule Webpurifex.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.0"},
-      {:poison, "~> 3.1"}
+      {:httpoison, "~> 0.8"},
+      {:poison, "~> 3.1"},
+      {:exvcr, "~> 0.8", only: :test}
     ]
   end
 end

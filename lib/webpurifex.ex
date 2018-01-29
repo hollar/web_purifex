@@ -14,12 +14,12 @@ defmodule Webpurifex do
   end
 
   defp post(%{form_data: form_data}) do
-    form_data =  build_form_data(form_data)
-    {:ok, response} = HTTPoison.post(get_base_url(), form_data)
+    body =  build_form_body(form_data)
+    {:ok, response} = HTTPoison.post(get_base_url(), body)
     Poison.Parser.parse!(response.body)
   end
 
-  defp build_form_body(data) do
+  defp build_form_body(form_data) do
     form_data = form_data ++ [
       {"api_key", get_api_key()},
       {"format", "json"}

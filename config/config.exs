@@ -31,3 +31,10 @@ use Mix.Config
 
 
 config :webpurifex, api_key: System.get_env("WEBPURIFY_API_KEY")
+
+config :exvcr, [
+  filter_sensitive_data: [
+    [pattern: "api_key=.+\&", placeholder: "API_KEY&"],
+    [pattern: "\"api_key\":\".+\"", placeholder: "\"api_key\":\"API_KEY\""]
+  ]
+]
