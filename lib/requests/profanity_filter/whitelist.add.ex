@@ -1,7 +1,7 @@
-defmodule Webpurifex.Requests.AddToBlacklist do
+defmodule Webpurifex.Requests.ProfanityFilter.Whitelist.Add do
   defstruct [:form_data]
 
-  @method "webpurify.live.addtoblacklist"
+  @method "webpurify.live.addtowhitelist"
 
   def build_request(word) do
     %__MODULE__{

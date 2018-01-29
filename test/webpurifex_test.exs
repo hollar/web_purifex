@@ -8,12 +8,14 @@ defmodule WebpurifexTest do
   end
 
   @tag :integration
-  test "adds a word to blacklist" do
-    use_cassette "add_to_blacklist" do
-      response =  Webpurifex.add_to_blacklist(":profanity:")
+  describe "blacklisting a word" do
+    test "blacklisting a word" do
+      use_cassette "add_to_blacklist" do
+        response =  Webpurifex.blacklist(":profanity:")
 
-      assert response["rsp"]["success"] == "1"
-      assert response["rsp"]["method"] == "webpurify.live.addtoblacklist"
+        assert response["rsp"]["success"] == "1"
+        assert response["rsp"]["method"] == "webpurify.live.addtoblacklist"
+      end
     end
   end
 
@@ -37,6 +39,17 @@ defmodule WebpurifexTest do
         assert response["rsp"]["@attributes"]["stat"] == "ok"
         assert response["rsp"]["found"] == "0"
         assert response["rsp"]["method"] == "webpurify.live.check"
+      end
+    end
+  end
+
+  describe "whitelisting a word" do
+    test "adds a word to the whitelist" do
+      use_cassette "whitelist_profanity" do
+        response =  Webpurifex.whitelist("ok_profanity")
+
+        assert response["rsp"]["@attributes"]["stat"] == "ok"
+        assert response["rsp"]["method"] == "webpurify.live.addtowhitelist"
       end
     end
   end

@@ -1,15 +1,21 @@
 defmodule Webpurifex do
   alias Webpurifex.Requests
 
-  def add_to_blacklist(word) do
+  def blacklist(word) do
     word
-    |> Requests.AddToBlacklist.build_request
+    |> Requests.ProfanityFilter.Blacklist.Add.build_request
     |> post
   end
 
   def check_text(text) do
     text
-    |> Requests.CheckText.build_request
+    |> Requests.ProfanityFilter.CheckText.build_request
+    |> post
+  end
+
+  def whitelist(word) do
+    word
+    |> Requests.ProfanityFilter.Whitelist.Add.build_request
     |> post
   end
 
