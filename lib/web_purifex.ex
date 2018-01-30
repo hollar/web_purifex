@@ -1,16 +1,17 @@
 defmodule WebPurifex do
-  @base_url "http://api1.webpurify.com/services/rest/"
+  @endpoint "http://api1.webpurify.com/services/rest/"
 
   alias WebPurifex.{HTTP, Parser}
-  def request(%{form_data: form_data}) do
+  def request(%{form_data: form_data}, opts \\ []) do
     form_data
-    |> build_form_body()
-    |> do_request
+    |> build_form_body
+    |> do_request(opts)
     |> parse
   end
 
-  defp do_request(body) do
-    HTTP.request(:post, @base_url, body)
+  defp do_request(body, opts) do
+    endpoint = Keyword.get(opts, :endpoint, @endpoint)
+    HTTP.request(:post, endpoint, body)
   end
 
   defp parse(result) do
