@@ -24,9 +24,9 @@ defmodule WebPurifex.ProfanityFilter do
   end
 
   defp post(%{form_data: form_data}) do
-    body =  build_form_body(form_data)
-    {:ok, response} = WebPurifex.HTTP.request(:post, WebPurifex.get_base_url, body)
-    Poison.Parser.parse!(response.body)
+    body = build_form_body(form_data)
+    result = WebPurifex.HTTP.request(:post, WebPurifex.get_base_url, body)
+    WebPurifex.Parser.parse(result, :any_action)
   end
 
   defp build_form_body(form_data) do
