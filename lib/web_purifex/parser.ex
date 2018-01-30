@@ -15,7 +15,18 @@ defmodule WebPurifex.Parser do
   def parse({:error, error_response}, _action), do: build_client_error(error_response)
 
   def parse(response, _action) do
-    {:ok, response}
+    status =
+      response
+      |> get_in(["rsp", "@attributes", "stat"])
+      |> String.to_atom
+
+    found =
+      response
+      |> get_in(["rsp", "found"])
+      |> Kernel.||("0")
+      |> String.to_integer
+
+    {:ok, %WebPurifex.Response{status: status, found: found}}
   end
 
   defp build_client_error(error) do

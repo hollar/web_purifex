@@ -3,7 +3,7 @@ defmodule WebPurifex.ProfanityFilterTest do
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   doctest WebPurifex
 
-  alias  WebPurifex.ProfanityFilter
+  alias  WebPurifex.{ProfanityFilter, Response}
 
   setup_all do
     HTTPoison.start
@@ -15,8 +15,7 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "add_to_blacklist" do
         {:ok, response} = ProfanityFilter.blacklist(":profanity:")
 
-        assert response["rsp"]["success"] == "1"
-        assert response["rsp"]["method"] == "webpurify.live.addtoblacklist"
+        assert %Response{status: :ok} = response
       end
     end
 
@@ -24,7 +23,7 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "get_blacklist" do
         {:ok, response} = ProfanityFilter.get_blacklist()
 
-        assert response["rsp"]["method"] == "webpurify.live.getblacklist"
+        assert %Response{status: :ok} = response
       end
     end
   end
@@ -34,9 +33,7 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "check_profanity" do
         {:ok, response} = ProfanityFilter.check_text("profanity")
 
-        assert response["rsp"]["@attributes"]["stat"] == "ok"
-        assert response["rsp"]["found"] == "1"
-        assert response["rsp"]["method"] == "webpurify.live.check"
+        assert %Response{status: :ok, found: 1} = response
       end
     end
 
@@ -44,9 +41,7 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "check_non_profanity" do
         {:ok, response} = ProfanityFilter.check_text(":sane_word:")
 
-        assert response["rsp"]["@attributes"]["stat"] == "ok"
-        assert response["rsp"]["found"] == "0"
-        assert response["rsp"]["method"] == "webpurify.live.check"
+        assert %Response{status: :ok, found: 0} = response
       end
     end
   end
@@ -56,8 +51,7 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "whitelist_profanity" do
         {:ok, response} = ProfanityFilter.whitelist("ok_profanity")
 
-        assert response["rsp"]["@attributes"]["stat"] == "ok"
-        assert response["rsp"]["method"] == "webpurify.live.addtowhitelist"
+        assert %Response{status: :ok} = response
       end
     end
   end
