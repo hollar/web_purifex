@@ -3,7 +3,7 @@ defmodule WebPurifex.ProfanityFilter.CheckText do
 
   @method "webpurify.live.check"
 
-  def build_request(text) do
+  def new(text) do
     %__MODULE__{
       form_data: [
         {"method", @method},

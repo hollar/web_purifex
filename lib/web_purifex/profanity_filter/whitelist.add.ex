@@ -3,7 +3,7 @@ defmodule WebPurifex.ProfanityFilter.Whitelist.Add do
 
   @method "webpurify.live.addtowhitelist"
 
-  def build_request(word) do
+  def new(word) do
     %__MODULE__{
       form_data: [
         {"method", @method},

@@ -3,7 +3,7 @@ defmodule WebPurifex.ProfanityFilter.Blacklist.GetList do
 
   @method "webpurify.live.getblacklist"
 
-  def build_request do
+  def new do
     %__MODULE__{
       form_data: [
         {"method", @method},
