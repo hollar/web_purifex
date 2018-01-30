@@ -25,7 +25,7 @@ defmodule WebPurifex do
 
   defp post(%{form_data: form_data}) do
     body =  build_form_body(form_data)
-    {:ok, response} = HTTPoison.post(get_base_url(), body)
+    {:ok, response} = WebPurifex.HTTP.request(:post, get_base_url(), body)
     Poison.Parser.parse!(response.body)
   end
 
