@@ -1,5 +1,5 @@
-defmodule Webpurifex do
-  alias Webpurifex.Requests
+defmodule WebPurifex do
+  alias WebPurifex.Requests
 
   def blacklist(word) do
     word
@@ -39,6 +39,6 @@ defmodule Webpurifex do
 
   defp get_base_url(), do: "http://api1.webpurify.com/services/rest/"
   defp get_api_key() do[]
-    Application.get_env(:webpurifex, :api_key)
+    Application.get_env(:web_purifex, :api_key)
   end
 end

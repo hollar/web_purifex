@@ -1,4 +1,4 @@
-defmodule Webpurifex.Requests.ProfanityFilter.Whitelist.Add do
+defmodule WebPurifex.Requests.ProfanityFilter.Whitelist.Add do
   defstruct [:form_data]
 
   @method "webpurify.live.addtowhitelist"

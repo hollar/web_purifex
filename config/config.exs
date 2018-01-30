@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure your application as:
 #
-#     config :webpurifex, key: :value
+#     config :web_purifex, key: :value
 #
 # and access this configuration in your application as:
 #
-#     Application.get_env(:webpurifex, :key)
+#     Application.get_env(:web_purifex, :key)
 #
 # You can also configure a 3rd-party app:
 #
@@ -30,7 +30,7 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 
-config :webpurifex, api_key: System.get_env("WEBPURIFY_API_KEY")
+config :web_purifex, api_key: System.get_env("WEB_PURIFY_API_KEY")
 
 config :exvcr, [
   filter_sensitive_data: [

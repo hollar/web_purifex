@@ -1,7 +1,7 @@
-defmodule WebpurifexTest do
+defmodule WebPurifexTest do
   use ExUnit.Case, async: true
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
-  doctest Webpurifex
+  doctest WebPurifex
 
   setup_all do
     HTTPoison.start
@@ -11,7 +11,7 @@ defmodule WebpurifexTest do
   describe "blacklisting a word" do
     test "blacklisting a word" do
       use_cassette "add_to_blacklist" do
-        response =  Webpurifex.blacklist(":profanity:")
+        response =  WebPurifex.blacklist(":profanity:")
 
         assert response["rsp"]["success"] == "1"
         assert response["rsp"]["method"] == "webpurify.live.addtoblacklist"
@@ -20,7 +20,7 @@ defmodule WebpurifexTest do
 
     test "list blacklisted words" do
       use_cassette "get_blacklist" do
-        response =  Webpurifex.get_blacklist()
+        response =  WebPurifex.get_blacklist()
 
         assert response["rsp"]["method"] == "webpurify.live.getblacklist"
       end
@@ -30,9 +30,9 @@ defmodule WebpurifexTest do
   describe "checking a text" do
     test "checks text with profanity" do
       use_cassette "check_profanity" do
-        # Webpurifex.add_to_blacklist("profanity")
+        # WebPurifex.add_to_blacklist("profanity")
 
-        response =  Webpurifex.check_text("profanity")
+        response =  WebPurifex.check_text("profanity")
 
         assert response["rsp"]["@attributes"]["stat"] == "ok"
         assert response["rsp"]["found"] == "1"
@@ -42,7 +42,7 @@ defmodule WebpurifexTest do
 
     test "checks text without profanity" do
       use_cassette "check_non_profanity" do
-        response =  Webpurifex.check_text(":sane_word:")
+        response =  WebPurifex.check_text(":sane_word:")
 
         assert response["rsp"]["@attributes"]["stat"] == "ok"
         assert response["rsp"]["found"] == "0"
@@ -54,7 +54,7 @@ defmodule WebpurifexTest do
   describe "whitelisting a word" do
     test "adds a word to the whitelist" do
       use_cassette "whitelist_profanity" do
-        response =  Webpurifex.whitelist("ok_profanity")
+        response =  WebPurifex.whitelist("ok_profanity")
 
         assert response["rsp"]["@attributes"]["stat"] == "ok"
         assert response["rsp"]["method"] == "webpurify.live.addtowhitelist"

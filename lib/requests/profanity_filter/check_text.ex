@@ -1,4 +1,4 @@
-defmodule Webpurifex.Requests.ProfanityFilter.CheckText do
+defmodule WebPurifex.Requests.ProfanityFilter.CheckText do
   defstruct [:form_data]
 
   @method "webpurify.live.check"
