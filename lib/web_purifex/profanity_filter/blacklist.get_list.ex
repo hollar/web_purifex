@@ -1,4 +1,4 @@
-defmodule WebPurifex.Requests.ProfanityFilter.Blacklist.GetList do
+defmodule WebPurifex.ProfanityFilter.Blacklist.GetList do
   defstruct [:form_data]
 
   @method "webpurify.live.getblacklist"
