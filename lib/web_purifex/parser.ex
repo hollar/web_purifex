@@ -3,8 +3,9 @@ defmodule WebPurifex.Parser do
   This module is responsible for parsing responses from the WebPurifex API and coercing them into
   their respsective structs.
   """
+  alias WebPurifex.{Error, Response}
 
-  @type result :: {:ok, any} | {:error, WebPurifex.Error.t()}
+  @type result :: {:ok, any} | {:error, Error.t()}
 
   def parse({:ok, response}, action) do
     response.body
@@ -30,13 +31,16 @@ defmodule WebPurifex.Parser do
       |> Kernel.||("0")
       |> String.to_integer
 
-    {:ok, %WebPurifex.Response{status: status, found: found}}
+    {:ok, %Response{status: status, found: found}}
   end
 
   defp build_client_error(%{"@attributes" => %{"code" => code, "msg" => message}}) do
-    {:error, %WebPurifex.Error{code: code, message: message}}
+    {:error, %Error{code: code, message: message}}
   end
-  defp build_client_error(%HTTPoison.Response{status_code: status_code}) do
-    {:error, %WebPurifex.Error{code: "unknown", message: "HTTP Status Code: #{status_code}"}}
+  defp build_client_error(%{status_code: status_code}) do
+    {:error, %Error{code: "unknown", message: "HTTP Status Code: #{status_code}"}}
+  end
+  defp build_client_error(:network_error) do
+    {:error, %Error{code: "unknown", message: "Network Error"}}
   end
 end

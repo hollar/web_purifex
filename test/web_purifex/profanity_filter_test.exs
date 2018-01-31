@@ -89,5 +89,14 @@ defmodule WebPurifex.ProfanityFilterTest do
         assert %Error{code: "unknown", message: "HTTP Status Code: 404"} = response
       end
     end
+
+    test "an HTTP failure returns an error" do
+      {:error, response} =
+        "profanity"
+        |> ProfanityFilter.check_text
+        |> WebPurifex.request(endpoint: "http://doesnotexist.org")
+
+      assert %Error{code: "unknown", message: "Network Error"} = response
+    end
   end
 end
