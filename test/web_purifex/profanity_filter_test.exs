@@ -3,13 +3,12 @@ defmodule WebPurifex.ProfanityFilterTest do
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   doctest WebPurifex
 
-  alias  WebPurifex.{ProfanityFilter, Response}
+  alias  WebPurifex.{ProfanityFilter, Response, Error}
 
   setup_all do
     HTTPoison.start
   end
 
-  @tag :integration
   describe "blacklisting a word" do
     test "blacklisting a word" do
       use_cassette "add_to_blacklist" do
@@ -64,6 +63,19 @@ defmodule WebPurifex.ProfanityFilterTest do
           |> WebPurifex.request
 
         assert %Response{status: :ok} = response
+      end
+    end
+  end
+
+  describe "error handling" do
+    test "without an API key returns an error" do
+      use_cassette "invalid_api_key" do
+        {:error, response} =
+          "profanity"
+          |> ProfanityFilter.check_text
+          |> WebPurifex.request
+
+        assert %Error{code: "100", message: "Invalid API Key"} = response
       end
     end
   end

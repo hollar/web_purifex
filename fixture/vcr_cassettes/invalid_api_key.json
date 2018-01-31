@@ -1,0 +1,27 @@
+[
+  {
+    "request": {
+      "body": "method=webpurify.live.check&text=profanity&API_KEY&format=json",
+      "headers": [],
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "http://api1.webpurify.com/services/rest/"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"rsp\":{\"@attributes\":{\"stat\":\"fail\"},\"err\":{\"@attributes\":{\"code\":\"100\",\"msg\":\"Invalid API Key\"}},\"text\":\"profanity\"}}",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 31 Jan 2018 19:20:33 GMT",
+        "Server": "nginx/1.10.3 (Ubuntu)",
+        "Vary": "Accept-Encoding",
+        "X-Powered-By": "HHVM/3.21.0",
+        "Content-Length": "119",
+        "Connection": "keep-alive"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

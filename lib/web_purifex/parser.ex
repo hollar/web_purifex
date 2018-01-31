@@ -9,19 +9,23 @@ defmodule WebPurifex.Parser do
   def parse({:ok, response}, action) do
     response.body
     |> Poison.decode!()
-    |> parse(action)
+    |> do_parse(action)
   end
 
   def parse({:error, error_response}, _action), do: build_client_error(error_response)
 
-  def parse(response, _action) do
+  defp do_parse(%{"rsp" => %{"@attributes" => %{"stat" => "fail"}}} = response_body, _action) do
+     build_client_error(response_body["rsp"]["err"])
+  end
+
+  defp do_parse(%{"rsp" => %{"@attributes" => %{"stat" => "ok"}}} = response_body, _action) do
     status =
-      response
+      response_body
       |> get_in(["rsp", "@attributes", "stat"])
       |> String.to_atom
 
     found =
-      response
+      response_body
       |> get_in(["rsp", "found"])
       |> Kernel.||("0")
       |> String.to_integer
@@ -29,14 +33,7 @@ defmodule WebPurifex.Parser do
     {:ok, %WebPurifex.Response{status: status, found: found}}
   end
 
-  defp build_client_error(error) do
-    error_messages =
-      error.body
-      |> Poison.decode!()
-      |> Map.take(["error", "detail"])
-
-    message = "#{error_messages["error"]}. #{error_messages["detail"]}"
-
-    {:error, %WebPurifex.Error{code: error.status_code, message: message}}
+  defp build_client_error(%{"@attributes" => %{"code" => code, "msg" => message}}) do
+    {:error, %WebPurifex.Error{code: code, message: message}}
   end
 end

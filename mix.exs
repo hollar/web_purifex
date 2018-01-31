@@ -23,7 +23,8 @@ defmodule WebPurifex.Mixfile do
     [
       {:httpoison, "~> 0.8"},
       {:poison, "~> 3.1"},
-      {:exvcr, "~> 0.8", only: :test}
+      {:exvcr, "~> 0.8", only: :test},
+      {:mix_test_watch, "~> 0.5", only: :dev, runtime: false}
     ]
   end
 end
