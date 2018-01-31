@@ -36,4 +36,7 @@ defmodule WebPurifex.Parser do
   defp build_client_error(%{"@attributes" => %{"code" => code, "msg" => message}}) do
     {:error, %WebPurifex.Error{code: code, message: message}}
   end
+  defp build_client_error(%HTTPoison.Response{status_code: status_code}) do
+    {:error, %WebPurifex.Error{code: "unknown", message: "HTTP Status Code: #{status_code}"}}
+  end
 end

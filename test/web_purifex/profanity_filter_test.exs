@@ -78,5 +78,16 @@ defmodule WebPurifex.ProfanityFilterTest do
         assert %Error{code: "100", message: "Invalid API Key"} = response
       end
     end
+
+    test "an 404 HTTP error returns an error" do
+      use_cassette "http_error" do
+        {:error, response} =
+          "profanity"
+          |> ProfanityFilter.check_text
+          |> WebPurifex.request(endpoint: "http://api1.webpurify.com/services/restx/")
+
+        assert %Error{code: "unknown", message: "HTTP Status Code: 404"} = response
+      end
+    end
   end
 end

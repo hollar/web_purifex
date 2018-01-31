@@ -1,0 +1,25 @@
+[
+  {
+    "request": {
+      "body": "method=webpurify.live.check&text=profanity&API_KEY&format=json",
+      "headers": [],
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "http://api1.webpurify.com/services/restx/"
+    },
+    "response": {
+      "binary": false,
+      "body": "<html>\r\n<head><title>404 Not Found</title></head>\r\n<body bgcolor=\"white\">\r\n<center><h1>404 Not Found</h1></center>\r\n<hr><center>nginx/1.10.3 (Ubuntu)</center>\r\n</body>\r\n</html>\r\n",
+      "headers": {
+        "Content-Type": "text/html",
+        "Date": "Wed, 31 Jan 2018 19:55:08 GMT",
+        "Server": "nginx/1.10.3 (Ubuntu)",
+        "Content-Length": "178",
+        "Connection": "keep-alive"
+      },
+      "status_code": 404,
+      "type": "ok"
+    }
+  }
+]
