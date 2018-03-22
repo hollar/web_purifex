@@ -27,6 +27,6 @@ defmodule WebPurifex do
   end
 
   defp get_api_key() do[]
-    Application.get_env(:web_purifex, :api_key)
+    Application.fetch_env!(:web_purifex, :api_key)
   end
 end
