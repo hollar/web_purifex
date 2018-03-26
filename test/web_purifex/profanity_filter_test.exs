@@ -55,6 +55,17 @@ defmodule WebPurifex.ProfanityFilterTest do
   end
 
   describe "returning expletives" do
+    test "returns no strings for text without profanity" do
+      use_cassette "return_zero_profanity" do
+        {:ok, response} =
+          ":sane_word:"
+          |> ProfanityFilter.return_text
+          |> WebPurifex.request
+
+        assert %Response{status: :ok, found: 0, expletive: nil} = response
+      end
+    end
+
     test "returns single string considered profanity" do
       use_cassette "return_single_profanity" do
         {:ok, response} =
