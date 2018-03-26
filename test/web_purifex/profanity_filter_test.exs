@@ -54,6 +54,19 @@ defmodule WebPurifex.ProfanityFilterTest do
     end
   end
 
+  describe "returning expletives" do
+    test "returns single string considered profanity" do
+      use_cassette "return_single_profanity" do
+        {:ok, response} =
+          "profanity"
+          |> ProfanityFilter.return_text
+          |> WebPurifex.request
+
+        assert %Response{status: :ok, found: 1, expletive: "profanity"} = response
+      end
+    end
+  end
+
   describe "whitelisting a word" do
     test "adds a word to the whitelist" do
       use_cassette "whitelist_profanity" do
