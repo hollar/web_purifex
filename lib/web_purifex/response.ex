@@ -1,5 +1,5 @@
 defmodule WebPurifex.Response do
-  defstruct [:status, :found]
+  defstruct [:status, :found, :expletive]
 
   @type t :: %__MODULE__{}
 end

@@ -13,6 +13,10 @@ defmodule WebPurifex.ProfanityFilter do
     ProfanityFilter.CheckText.new(text)
   end
 
+  def return_text(text) do
+    ProfanityFilter.ReturnText.new(text)
+  end
+
   def whitelist(word) do
     ProfanityFilter.Whitelist.Add.new(word)
   end

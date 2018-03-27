@@ -31,7 +31,12 @@ defmodule WebPurifex.Parser do
       |> Kernel.||("0")
       |> String.to_integer
 
-    {:ok, %Response{status: status, found: found}}
+    expletive =
+      response_body
+      |> get_in(["rsp", "expletive"])
+      |> List.wrap
+
+    {:ok, %Response{status: status, found: found, expletive: expletive}}
   end
 
   defp build_client_error(%{"@attributes" => %{"code" => code, "msg" => message}}) do
