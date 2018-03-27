@@ -62,7 +62,7 @@ defmodule WebPurifex.ProfanityFilterTest do
           |> ProfanityFilter.return_text
           |> WebPurifex.request
 
-        assert %Response{status: :ok, found: 0, expletive: nil} = response
+        assert %Response{status: :ok, found: 0, expletive: []} = response
       end
     end
 
@@ -73,7 +73,7 @@ defmodule WebPurifex.ProfanityFilterTest do
           |> ProfanityFilter.return_text
           |> WebPurifex.request
 
-        assert %Response{status: :ok, found: 1, expletive: "profanity"} = response
+        assert %Response{status: :ok, found: 1, expletive: ~w(profanity)} = response
       end
     end
 

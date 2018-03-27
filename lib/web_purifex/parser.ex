@@ -34,6 +34,7 @@ defmodule WebPurifex.Parser do
     expletive =
       response_body
       |> get_in(["rsp", "expletive"])
+      |> List.wrap
 
     {:ok, %Response{status: status, found: found, expletive: expletive}}
   end
