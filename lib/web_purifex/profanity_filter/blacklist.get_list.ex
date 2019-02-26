@@ -6,7 +6,7 @@ defmodule WebPurifex.ProfanityFilter.Blacklist.GetList do
   def new do
     %__MODULE__{
       form_data: [
-        {"method", @method},
+        {"method", @method}
       ]
     }
   end

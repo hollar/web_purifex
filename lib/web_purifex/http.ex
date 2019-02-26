@@ -18,7 +18,8 @@ defmodule WebPurifex.HTTP do
       {:ok, %{status_code: code}} when code >= 500 ->
         raise "TODO handle this"
 
-      {:error, _reason} -> {:error, :network_error}
+      {:error, _reason} ->
+        {:error, :network_error}
     end
   end
 end

@@ -3,10 +3,10 @@ defmodule WebPurifex.ProfanityFilterTest do
   use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
   doctest WebPurifex
 
-  alias  WebPurifex.{ProfanityFilter, Response, Error}
+  alias WebPurifex.{ProfanityFilter, Response, Error}
 
   setup_all do
-    HTTPoison.start
+    HTTPoison.start()
   end
 
   describe "blacklisting a word" do
@@ -14,8 +14,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "add_to_blacklist" do
         {:ok, response} =
           ":profanity:"
-          |> ProfanityFilter.blacklist
-          |> WebPurifex.request
+          |> ProfanityFilter.blacklist()
+          |> WebPurifex.request()
 
         assert %Response{status: :ok} = response
       end
@@ -23,7 +23,7 @@ defmodule WebPurifex.ProfanityFilterTest do
 
     test "list blacklisted words" do
       use_cassette "get_blacklist" do
-        {:ok, response} = ProfanityFilter.get_blacklist |> WebPurifex.request
+        {:ok, response} = ProfanityFilter.get_blacklist() |> WebPurifex.request()
 
         assert %Response{status: :ok} = response
       end
@@ -35,8 +35,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "check_profanity" do
         {:ok, response} =
           "profanity"
-          |> ProfanityFilter.check_text
-          |> WebPurifex.request
+          |> ProfanityFilter.check_text()
+          |> WebPurifex.request()
 
         assert %Response{status: :ok, found: 1} = response
       end
@@ -46,8 +46,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "check_non_profanity" do
         {:ok, response} =
           ":sane_word:"
-          |> ProfanityFilter.check_text
-          |> WebPurifex.request
+          |> ProfanityFilter.check_text()
+          |> WebPurifex.request()
 
         assert %Response{status: :ok, found: 0} = response
       end
@@ -59,8 +59,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "return_zero_profanity" do
         {:ok, response} =
           ":sane_word:"
-          |> ProfanityFilter.return_text
-          |> WebPurifex.request
+          |> ProfanityFilter.return_text()
+          |> WebPurifex.request()
 
         assert %Response{status: :ok, found: 0, expletive: []} = response
       end
@@ -70,8 +70,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "return_single_profanity" do
         {:ok, response} =
           "profanity"
-          |> ProfanityFilter.return_text
-          |> WebPurifex.request
+          |> ProfanityFilter.return_text()
+          |> WebPurifex.request()
 
         assert %Response{status: :ok, found: 1, expletive: ~w(profanity)} = response
       end
@@ -81,8 +81,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "return_multiple_profanity" do
         {:ok, response} =
           "profanity_1 profanity_2"
-          |> ProfanityFilter.return_text
-          |> WebPurifex.request
+          |> ProfanityFilter.return_text()
+          |> WebPurifex.request()
 
         assert %Response{status: :ok, found: 2, expletive: ~w(profanity_1 profanity_2)} = response
       end
@@ -94,8 +94,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "whitelist_profanity" do
         {:ok, response} =
           "ok_profanity"
-          |> ProfanityFilter.whitelist
-          |> WebPurifex.request
+          |> ProfanityFilter.whitelist()
+          |> WebPurifex.request()
 
         assert %Response{status: :ok} = response
       end
@@ -107,8 +107,8 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "invalid_api_key" do
         {:error, response} =
           "profanity"
-          |> ProfanityFilter.check_text
-          |> WebPurifex.request
+          |> ProfanityFilter.check_text()
+          |> WebPurifex.request()
 
         assert %Error{code: "100", message: "Invalid API Key"} = response
       end
@@ -118,7 +118,7 @@ defmodule WebPurifex.ProfanityFilterTest do
       use_cassette "http_error" do
         {:error, response} =
           "profanity"
-          |> ProfanityFilter.check_text
+          |> ProfanityFilter.check_text()
           |> WebPurifex.request(endpoint: "http://api1.webpurify.com/services/restx/")
 
         assert %Error{code: "unknown", message: "HTTP Status Code: 404"} = response
@@ -128,7 +128,7 @@ defmodule WebPurifex.ProfanityFilterTest do
     test "an HTTP failure returns an error" do
       {:error, response} =
         "profanity"
-        |> ProfanityFilter.check_text
+        |> ProfanityFilter.check_text()
         |> WebPurifex.request(endpoint: "http://doesnotexist.org")
 
       assert %Error{code: "unknown", message: "Network Error"} = response
