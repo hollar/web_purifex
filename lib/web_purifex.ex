@@ -2,6 +2,7 @@ defmodule WebPurifex do
   @endpoint "http://api1.webpurify.com/services/rest/"
 
   alias WebPurifex.{HTTP, Parser}
+
   def request(%{form_data: form_data}, opts \\ []) do
     form_data
     |> build_form_body
@@ -19,14 +20,18 @@ defmodule WebPurifex do
   end
 
   defp build_form_body(form_data) do
-    form_data = form_data ++ [
-      {"api_key", get_api_key()},
-      {"format", "json"}
-    ]
+    form_data =
+      form_data ++
+        [
+          {"api_key", get_api_key()},
+          {"format", "json"}
+        ]
+
     {:form, form_data}
   end
 
-  defp get_api_key() do[]
+  defp get_api_key() do
+    []
     Application.fetch_env!(:web_purifex, :api_key)
   end
 end

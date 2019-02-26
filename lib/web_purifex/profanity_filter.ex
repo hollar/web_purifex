@@ -6,7 +6,7 @@ defmodule WebPurifex.ProfanityFilter do
   end
 
   def get_blacklist() do
-    ProfanityFilter.Blacklist.GetList.new
+    ProfanityFilter.Blacklist.GetList.new()
   end
 
   def check_text(text) do
